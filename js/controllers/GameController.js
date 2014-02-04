@@ -6,85 +6,90 @@ function GameController ($scope, $translate) {
         $translate.uses(key);
     };
 
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update, render: render});
+
+    function preload() {
+
+        game.load.image('space', 'assets/space.jpg');
+        game.load.image('planet1', 'assets/planet1.png');
+        game.load.image('planet2', 'assets/planet2.png');
+        game.load.image('planet3', 'assets/planet3.png');
+        game.load.image('planet4', 'assets/planet4.png');
+        game.load.image('spaceship', 'assets/spaceship.png');
+
+    }
+
     var platforms;
     var score = 0;
     var scoreText;
-
-    function preload() {
-        game.load.image('sky', 'assets/sky.png');
-        game.load.image('ground', 'assets/platform.png');
-        game.load.image('star', 'assets/star.png');
-        game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    }
+    var spaceship;
+    var spaceshipSelected = true;
 
     function create() {
-        game.add.sprite(0, 0, 'sky');
+
+        var platforms;
+
+        //  A simple background for our game
+        game.add.sprite(0, 0, 'space');
+
+        //  The platforms group contains the ground and the 2 ledges we can jump on
         platforms = game.add.group();
 
-        var ground = platforms.create(0, game.world.height - 64, 'ground');
-        ground.scale.setTo(2, 2);
-        ground.body.immovable = true;
+        //  Now let's create two ledges
+        var planet1 = platforms.create(100, 100, 'planet1');
+        planet1.body.immovable = true;
+        planet1.inputEnabled = true;
+        planet1.events.onInputDown.add(planetListener, this);
 
-        var ledge = platforms.create(400, 400, 'ground');
-        ledge.body.immovable = true;
-        ledge = platforms.create(-150, 250, 'ground');
-        ledge.body.immovable = true;
+        var planet2 = platforms.create(600, 100, 'planet2');
+        planet2.body.immovable = true;
+        planet2.inputEnabled = true;
+        planet2.events.onInputDown.add(planetListener, this);
 
-        // The player and its settings
-        player = game.add.sprite(32, game.world.height - 150, 'dude');
+        var planet3 = platforms.create(100, 500, 'planet3');
+        planet3.body.immovable = true;
+        planet3.inputEnabled = true;
+        planet3.events.onInputDown.add(planetListener, this);
 
-        //  Player physics properties. Give the little guy a slight bounce.
-        player.body.bounce.y = 0.2;
-        player.body.gravity.y = 6;
-        player.body.collideWorldBounds = true;
+        var planet4 = platforms.create(600, 400, 'planet4');
+        planet4.body.immovable = true;
+        planet4.inputEnabled = true;
+        planet4.events.onInputDown.add(planetListener, this);
 
-        //  Our two animations, walking left and right.
-        player.animations.add('left', [0, 1, 2, 3], 10, true);
-        player.animations.add('right', [5, 6, 7, 8], 10, true);
-
-        cursors = game.input.keyboard.createCursorKeys();
-
-        stars = game.add.group();
-
-        for (var i = 0; i < 12; i++) {
-            var star = stars.create(i*70, 0, 'star');
-            star.body.gravity.y = 6;
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }
-
-        scoreText = game.add.text(16, 16, 'Score: ' + score, {font: '32px arial', fill: '#000'});
+        spaceship = game.add.sprite(0, 0, 'spaceship');
+        //enables all kind of input actions on this image (click, etc)
+        spaceship.inputEnabled = true;
+        //spaceship.events.onInputDown.add(spaceshipListener, this);
 
     }
 
     function update() {
-        game.physics.collide(player, platforms);
-        game.physics.collide(stars, platforms);
-        game.physics.overlap(player, stars, collectStar, null, this);
 
-        player.body.velocity.x = 0;
-        if (cursors.left.isDown) {
-            player.body.velocity.x = -150;
-            player.animations.play('left');
-        } else if (cursors.right.isDown) {
-            player.body.velocity.x = 150;
-            player.animations.play('right');
-        } else {
-            player.animations.stop();
-            player.frame = 4;
-        }
+    }
 
-        if (cursors.up.isDown && player.body.touching.down) {
-            player.body.velocity.y = -350;
+    function render() {
+        //debug helper
+        game.debug.renderInputInfo(0, 0);
+    }
+
+    function spaceshipListener() {
+        spaceshipSelected = !spaceshipSelected;
+        if (spaceshipSelected) {
+            alert('clicked');
         }
     }
 
-    function collectStar(player, star) {
-        star.kill();
-        score +=10;
-        scoreText.content = 'Score ' + score;
-        if (stars.length == 0) {
-            create();
+    function planetListener(planet){
+        if(spaceshipSelected){
+            game.physics.moveToXY(spaceship,planet.center.x,planet.center.y,60,1000);
+            setTimeout(function() {
+                spaceship.body.velocity.x = 0;
+                spaceship.body.velocity.y = 0;
+            }, 1000);
+            //spaceship.x = (planet.x + (planet.width / 2.0));
+//
+//
+//            spaceship.y = (planet.y + (planet.height / 2.0))
         }
     }
 }
