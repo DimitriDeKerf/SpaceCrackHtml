@@ -3,6 +3,10 @@
  */
 
 angular.module('spaceServices', ['ngResource'])
-    .factory('', function ($resource) {
-        return null;
-    });
+    .factory('Login', function ($resource) {
+        return $resource('rest/accesstoken')
+    })
+    .factory('Register', function ($resource) {
+        return $resource('rest/account')
+    })
+    ;

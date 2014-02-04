@@ -1,7 +1,7 @@
 /**
  * Created by Dimi on 3/02/14.
  */
-function GameController ($scope, $translate) {
+function GameController ($scope, $translate,Login) {
     $scope.changeLanguage = function (key) {
         $translate.uses(key);
     };
@@ -86,10 +86,8 @@ function GameController ($scope, $translate) {
                 spaceship.body.velocity.x = 0;
                 spaceship.body.velocity.y = 0;
             }, 1000);
-            //spaceship.x = (planet.x + (planet.width / 2.0));
-//
-//
-//            spaceship.y = (planet.y + (planet.height / 2.0))
+    var login = {"username":"test","password":"test"};
+            Login.save(login);
         }
     }
 }
