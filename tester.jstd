@@ -1,4 +1,0 @@
-load:
-  - js/main.js
-test:
-  - test/mainTest.js
