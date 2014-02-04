@@ -9,6 +9,10 @@ var spaceApp = angular.module('spaceApp', ['ngRoute', 'spaceServices', 'ngCookie
 function appRouter($routeProvider) {
     $routeProvider
         .when('/', {
+            templateUrl: 'partials/login.html',
+            controller: 'LoginController'
+        })
+        .when('/game', {
             templateUrl: 'partials/game.html',
             controller: 'GameController'
         })
@@ -17,10 +21,25 @@ function appRouter($routeProvider) {
 //Translation
 spaceApp.config(['$translateProvider', function ($translateProvider) {
     $translateProvider.translations('en_US', {
-        HELLO_WORLD: 'Hello World!'
+        HELLO_WORLD: 'Hello World!',
+        LOGIN: 'Login',
+        USERNAME: "Username",
+        PASSWORD: "Password",
+        REGISTER:"Register"
     });
     $translateProvider.translations('nl_NL', {
-        HELLO_WORLD: 'Hallo Wereld!'
+        HELLO_WORLD: 'Hallo Wereld!',
+        LOGIN: 'Aanmelden',
+        USERNAME: "Gebruikersnaam",
+        PASSWORD: "Wachtwoord",
+        REGISTER: "Registreer"
     });
     $translateProvider.preferredLanguage('en_US');
 }]);
+
+spaceApp.controller("MainController", function ($scope, $cookies, $location, $timeout, $translate) {
+    $scope.changeLanguage = function (key) {
+        $translate.uses(key);
+    };
+
+});

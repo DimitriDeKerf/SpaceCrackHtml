@@ -2,9 +2,6 @@
  * Created by Dimi on 3/02/14.
  */
 function GameController ($scope, $translate,Login) {
-    $scope.changeLanguage = function (key) {
-        $translate.uses(key);
-    };
 
     var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update, render: render});
 
@@ -86,8 +83,6 @@ function GameController ($scope, $translate,Login) {
                 spaceship.body.velocity.x = 0;
                 spaceship.body.velocity.y = 0;
             }, 1000);
-    var login = {"username":"test","password":"test"};
-            Login.save(login);
         }
     }
 }
