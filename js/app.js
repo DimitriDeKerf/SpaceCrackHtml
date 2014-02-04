@@ -16,6 +16,10 @@ function appRouter($routeProvider) {
             templateUrl: 'partials/game.html',
             controller: 'GameController'
         })
+        .when('/register', {
+            templateUrl: 'partials/register.html',
+            controller: 'RegisterController'
+        })
 }
 
 //Translation
@@ -25,14 +29,18 @@ spaceApp.config(['$translateProvider', function ($translateProvider) {
         LOGIN: 'Login',
         USERNAME: "Username",
         PASSWORD: "Password",
-        REGISTER:"Register"
+        REGISTER: "Register",
+        FIRSTNAME: "Firstname",
+        LASTNAME: "Lastname"
     });
     $translateProvider.translations('nl_NL', {
         HELLO_WORLD: 'Hallo Wereld!',
         LOGIN: 'Aanmelden',
         USERNAME: "Gebruikersnaam",
         PASSWORD: "Wachtwoord",
-        REGISTER: "Registreer"
+        REGISTER: "Registreer",
+        FIRSTNAME: "Voornaam",
+        LASTNAME: "Achternaam"
     });
     $translateProvider.preferredLanguage('en_US');
 }]);
@@ -40,6 +48,10 @@ spaceApp.config(['$translateProvider', function ($translateProvider) {
 spaceApp.controller("MainController", function ($scope, $cookies, $location, $timeout, $translate) {
     $scope.changeLanguage = function (key) {
         $translate.uses(key);
+    };
+    //site locatie wijzigen
+    $scope.go = function (path) {
+        $location.path(path);
     };
 
 });
