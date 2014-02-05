@@ -1,7 +1,7 @@
 /**
  * Created by Atheesan on 4/02/14.
  */
-function LoginController($scope, $translate, Login) {
+function LoginController($scope,Login) {
     $scope.loginData = {
         username: "",
         password: ""

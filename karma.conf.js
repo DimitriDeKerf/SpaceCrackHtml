@@ -16,6 +16,7 @@ module.exports = function (config) {
         files: [
             'lib/angular/angular.js',
             'lib/angular/angular-*.js',
+            'js/vendor/angular-translate-min.js',
             'test/lib/angular/angular-mocks.js',
             'js/*.js',
             'test/unit/*.js'

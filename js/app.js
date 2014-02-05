@@ -2,7 +2,7 @@
  * Created by Dimi on 3/02/14.
  */
 
-var spaceApp = angular.module('spaceApp', ['ngRoute', 'spaceServices', 'ngCookies', 'ngAnimate', 'pascalprecht.translate'])
+var spaceApp = angular.module('spaceApp',['ngRoute', 'spaceServices', 'ngCookies', 'ngAnimate', 'pascalprecht.translate'])
     .config(appRouter);
 
 //Navigation
@@ -31,7 +31,8 @@ spaceApp.config(['$translateProvider', function ($translateProvider) {
         PASSWORD: "Password",
         REGISTER: "Register",
         FIRSTNAME: "Firstname",
-        LASTNAME: "Lastname"
+        LASTNAME: "Lastname",
+        REPEAT_PASSWORD:"Repeat Password"
     });
     $translateProvider.translations('nl_NL', {
         HELLO_WORLD: 'Hallo Wereld!',
@@ -40,7 +41,8 @@ spaceApp.config(['$translateProvider', function ($translateProvider) {
         PASSWORD: "Wachtwoord",
         REGISTER: "Registreer",
         FIRSTNAME: "Voornaam",
-        LASTNAME: "Achternaam"
+        LASTNAME: "Achternaam",
+        REPEAT_PASSWORD:"Herhaal Wachtwoord"
     });
     $translateProvider.preferredLanguage('en_US');
 }]);
@@ -54,4 +56,26 @@ spaceApp.controller("MainController", function ($scope, $cookies, $location, $ti
         $location.path(path);
     };
 
+});
+
+
+
+
+spaceApp.controller("SimpleCtrl", function($scope){
+    $scope.message = "Hello World";
+});
+
+spaceApp.factory("SimpleService", function(){
+
+    var service = {
+        getData: function(){
+            return [{
+                id: 1,
+                name: "Mark"
+            }];
+        }
+
+    };
+
+    return service;
 });

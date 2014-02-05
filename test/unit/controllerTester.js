@@ -1,14 +1,18 @@
-describe("Hello world", function() {
-    var element;
-    var $scope;
-    beforeEach(inject(function($compile, $rootScope) {
-        $scope = $rootScope;
-        element = angular.element("<div>{{2 + 2}}</div>");
-        element = $compile(element)($rootScope)
-    }))
+describe("app module", function () {
+    beforeEach(module("spaceApp"));
 
-    it('should equal 4', function() {
-        $scope.$digest()
-        expect(element.html()).toBe("4");
-    })
-})
+    describe("SimpleCtrl", function () {
+        var scope,
+            controller;
+
+        beforeEach(inject(function ($rootScope, $controller) {
+            scope = $rootScope.$new();
+            controller = $controller;
+        }));
+
+        it("should assign message to hello world", function () {
+            controller("SimpleCtrl", {$scope: scope});
+            expect(scope.message).toBe("Hello World");
+        });
+    });
+});
